@@ -48,7 +48,7 @@ import { homedir } from "node:os";
 import {
   type AgentSession,
   type AgentSessionEvent,
-} from "@mariozechner/pi-coding-agent";
+} from "@earendil-works/pi-coding-agent";
 import * as readline from "node:readline";
 import { Marked } from "marked";
 import { markedTerminal } from "marked-terminal";

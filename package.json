@@ -44,7 +44,7 @@
     "url": "https://github.com/xt8086/wmcli.git"
   },
   "dependencies": {
-    "@mariozechner/pi-coding-agent": "^0.73.0",
+    "@earendil-works/pi-coding-agent": "^0.74.0",
     "better-sqlite3": "^12.9.0",
     "marked": "^15.0.12",
     "marked-terminal": "^7.3.0",

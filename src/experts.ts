@@ -8,7 +8,7 @@
  */
 
 import { Type } from "typebox";
-import type { AgentSession, AgentSessionEvent } from "@mariozechner/pi-coding-agent";
+import type { AgentSession, AgentSessionEvent } from "@earendil-works/pi-coding-agent";
 import { getAuth, providerOf } from "./config.js";
 
 // Helper: wrap a string result as a proper AgentToolResult

@@ -29,7 +29,7 @@ const TARGET = join(
   import.meta.dirname,
   "..",
   "node_modules",
-  "@mariozechner",
+  "@earendil-works",
   "pi-coding-agent",
   "dist",
   "core",

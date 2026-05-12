@@ -13,8 +13,8 @@ import {
   createAgentSession,
   DefaultResourceLoader,
   type AgentSession,
-} from "@mariozechner/pi-coding-agent";
-import type { Model } from "@mariozechner/pi-ai";
+} from "@earendil-works/pi-coding-agent";
+import type { Model } from "@earendil-works/pi-ai";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { homedir } from "node:os";
