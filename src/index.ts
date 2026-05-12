@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * taskcli — Intelligent CLI with expert sub-agent delegation.
+ * wmcli — Intelligent CLI with expert sub-agent delegation.
  * Models from any provider. API keys per provider.
  */
 
@@ -152,7 +152,7 @@ let _rlClosed = false;
 async function runRepl(): Promise<void> {
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout, terminal: process.stdin.isTTY || false });
   _rl = rl;
-  const showPrompt = () => { if (_rlClosed) return; try { rl.setPrompt("taskcli > "); rl.prompt(); } catch {} };
+  const showPrompt = () => { if (_rlClosed) return; try { rl.setPrompt("wmcli > "); rl.prompt(); } catch {} };
   let lineQueue = Promise.resolve();
   rl.on("line", (line: string) => {
     lineQueue = lineQueue.then(async () => {

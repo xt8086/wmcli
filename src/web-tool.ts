@@ -26,7 +26,7 @@ Provide a single URL. Strips HTML, returns plain text (max 50KB).`,
         signal: signal ?? AbortSignal.timeout(15_000),
         headers: {
           "User-Agent":
-            "Mozilla/5.0 (compatible; taskcli/1.0; +https://github.com)",
+            "Mozilla/5.0 (compatible; wmcli/1.0; +https://github.com)",
         },
       });
 
