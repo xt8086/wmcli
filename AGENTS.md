@@ -1,4 +1,4 @@
-# taskcli — Agent Context File
+# wmcli — Agent Context File
 
 > Full project context for AI coding agents. Documents architecture, code, state, decisions, and known issues.
 
@@ -6,11 +6,11 @@
 
 ## Project Overview
 
-**taskcli** — CLI task runner with expert sub-agent delegation. Models from any provider via pi's ModelRegistry.
+**wmcli** — CLI task runner with expert sub-agent delegation. Models from any provider via pi's ModelRegistry.
 GLM 5.1 coordinates experts for coding, vision, and web research.
 Sessions persist across restarts. Past conversations searchable via semantic memory.
 
-**Location**: `/home/linovo/taskcli`
+**Location**: `/home/linovo/wmcli`
 **Created**: 2026-05-06
 **Revised**: 2026-05-12 v9 — multi-provider models, per-provider API keys, /key command, /vision command, --api-key flag
 **Status**: Working — multi-provider model switching, per-provider keys, vision hot-swap, thinking streaming, status line, markdown output, research delegation, memory recall
@@ -61,21 +61,21 @@ src/
 
 ## Key Design Decisions
 
-1. **Multi-provider model selection** — `/model` command searches 972 models across 32 providers (OpenRouter, OpenAI, Anthropic, Google, DeepSeek, xAI, Groq, Mistral, etc.). Searchable by name/id. Selectable by number or full `provider/model` ID. Choice persists in `~/.taskcli.json`. Default: `openrouter/z-ai/glm-5.1`.
+1. **Multi-provider model selection** — `/model` command searches 972 models across 32 providers (OpenRouter, OpenAI, Anthropic, Google, DeepSeek, xAI, Groq, Mistral, etc.). Searchable by name/id. Selectable by number or full `provider/model` ID. Choice persists in `~/.wmcli.json`. Default: `openrouter/z-ai/glm-5.1`.
 2. **Coding sub-agent uses same model** — whatever the main model is, the coding expert uses it in an isolated session. No conversation pollution from main session.
-3. **Per-provider API key management** — each provider needs its own API key. On startup, taskcli checks that keys exist for the main model's provider and the vision model's provider. Missing keys trigger a prompt with the provider's key URL and env var name. Keys stored in pi's `~/.pi/agent/auth.json` (shared with pi). `/key` command manages keys at runtime. `--api-key provider=key` CLI flag for runtime-only overrides. Env vars checked as fallback.
+3. **Per-provider API key management** — each provider needs its own API key. On startup, wmcli checks that keys exist for the main model's provider and the vision model's provider. Missing keys trigger a prompt with the provider's key URL and env var name. Keys stored in pi's `~/.pi/agent/auth.json` (shared with pi). `/key` command manages keys at runtime. `--api-key provider=key` CLI flag for runtime-only overrides. Env vars checked as fallback.
 4. **Expert delegation pattern** — three separate tools for coding, vision, research. Main model decides which to spawn.
 5. **Session persistence** — `SessionManager.continueRecent()` resumes last session. Conversations survive restarts.
-6. **Cross-session RAG memory** — on exit, session content embedded via OpenRouter → stored in `~/.taskcli/memory.db`. `recall_sessions` tool does cosine similarity search.
+6. **Cross-session RAG memory** — on exit, session content embedded via OpenRouter → stored in `~/.wmcli/memory.db`. `recall_sessions` tool does cosine similarity search.
 7. **All cloud** — no local models. Ollama removed (CPU too slow for inference).
 8. **Top-level session cleanup** — truly corrupted sessions (message entries with null content field) deleted at import time, before pi SDK loads them. Only checks `type: "message"` entries — session headers and other entry types are NOT corruption.
 9. **Markdown terminal rendering** — assistant text buffered during streaming, rendered via `marked-terminal` on `message_end`. Tables, bold, code blocks render properly in terminal. Thinking streams in real-time (dim italic with 💭 prefix).
 10. **Hidden raw research output** — `delegate_research` tool results are consumed internally by the main model, which re-formats them as clean markdown. The raw Perplexity output is not displayed to avoid duplication.
 11. **Custom tools return AgentToolResult** — all custom tools (`delegate_coding`, `delegate_vision`, `delegate_research`, `recall_sessions`, `web_fetch`) return proper `{ content: [...], details: {} }` objects. Plain string returns caused `content: null` in session JSONL files, crashing the agent loop on next startup.
-12. **Thinking level auto-enable** — reasoning models (like GLM 5.1) have thinking off by default due to pi's session restoring saved `thinkingLevel: "off"` from old sessions. taskcli forces `"medium"` at startup if the model supports thinking but it's off. Users can change it with `/thinking`.
+12. **Thinking level auto-enable** — reasoning models (like GLM 5.1) have thinking off by default due to pi's session restoring saved `thinkingLevel: "off"` from old sessions. wmcli forces `"medium"` at startup if the model supports thinking but it's off. Users can change it with `/thinking`.
 13. **Status line after each response** — pi-style footer showing token stats, cost, context usage, model, and thinking level (e.g. `↑302k ↓15k R4.6M $2.760 36.2%/203k (openrouter/z-ai/glm-5.1) • medium`).
 14. **Key warnings in model list** — models from providers without a configured API key show ⚠️ in the `/model` and `/vision` search results. Selecting such a model warns the user to set the key with `/key set <provider>`.
-15. **Vision model hot-swap** — `/vision` command lets users search and switch vision models at runtime. The vision session is recreated on-the-fly (no restart needed). Persists in `~/.taskcli.json`.
+15. **Vision model hot-swap** — `/vision` command lets users search and switch vision models at runtime. The vision session is recreated on-the-fly (no restart needed). Persists in `~/.wmcli.json`.
 
 ## Fixed: Session Corruption Root Cause
 
@@ -109,7 +109,7 @@ All output goes to stdout. Event handling with visual section separators:
 
 ## Session Memory System
 
-- DB: `~/.taskcli/memory.db` (SQLite, WAL mode)
+- DB: `~/.wmcli/memory.db` (SQLite, WAL mode)
 - Embed model: `openai/text-embedding-3-small` (1536 dims, $0.02/1M tokens)
 - On exit: extract text from all messages → embed → store with timestamp
 - Recall: embed query → cosine similarity → return top-3 above 0.30 similarity
@@ -150,7 +150,7 @@ All output goes to stdout. Event handling with visual section separators:
 - `/model 5` — select by number from last search
 - `/model anthropic/claude-sonnet-4` — switch directly
 - Models from providers without a configured key show ⚠️
-- Choice persisted in `~/.taskcli.json` as `provider/model-id`
+- Choice persisted in `~/.wmcli.json` as `provider/model-id`
 - Switching to a reasoning model auto-enables thinking at "medium" if currently off
 
 ## Vision Model Selection
@@ -161,7 +161,7 @@ All output goes to stdout. Event handling with visual section separators:
 - `/vision google/gemini-2.0-flash` — switch directly
 - Shows `← current` marker next to the active vision model
 - Hot-swaps the vision session at runtime (no restart needed)
-- Choice persisted in `~/.taskcli.json` as `visionModel`
+- Choice persisted in `~/.wmcli.json` as `visionModel`
 - Default: `openrouter/google/gemini-2.0-flash-001` (same provider as default main model)
 
 ## Workflow: OpenRouter → Direct API Keys
@@ -187,16 +187,16 @@ All output goes to stdout. Event handling with visual section separators:
 
 | File | Purpose |
 |------|---------|
-| `~/.taskcli.json` | User's model choices (`{"model": "openrouter/z-ai/glm-5.1", "visionModel": "openrouter/google/gemini-2.0-flash-001"}`) |
+| `~/.wmcli.json` | User's model choices (`{"model": "openrouter/z-ai/glm-5.1", "visionModel": "openrouter/google/gemini-2.0-flash-001"}`) |
 | `~/.pi/agent/auth.json` | API keys per provider (shared with pi) |
 | `~/.pi/agent/sessions/` | Session history (shared with pi) |
-| `~/.taskcli/memory.db` | SQLite embedding store for session recall |
+| `~/.wmcli/memory.db` | SQLite embedding store for session recall |
 
 ## Known Issues
 
 1. Research results print as block (no streaming) — tool returns full string at once. Model doesn't re-emit after tool returns.
 2. Text response has slight delay before appearing — buffering for markdown rendering means nothing shows until `message_end`. Thinking streams immediately though.
-3. `setModel()` switches the main session model but the coding sub-agent keeps its original model until taskcli is restarted.
+3. `setModel()` switches the main session model but the coding sub-agent keeps its original model until wmcli is restarted.
 
 ## Testing
 

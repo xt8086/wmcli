@@ -25,7 +25,7 @@ const EMBED_MODEL = "openai/text-embedding-3-small";
 const EMBED_DIMS = 1536;
 const DB_PATH = path.join(
   process.env.HOME || "/tmp",
-  ".taskcli",
+  ".wmcli",
   "memory.db"
 );
 

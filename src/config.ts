@@ -31,14 +31,14 @@ export const VISION_MODEL    = "openrouter/google/gemini-2.0-flash-001";
 // Config file (stores user's model choices + vision model)
 // ---------------------------------------------------------------------------
 
-const CONFIG_PATH = join(homedir(), ".taskcli.json");
+const CONFIG_PATH = join(homedir(), ".wmcli.json");
 
-interface TaskCliConfig {
+interface WmCliConfig {
   model: string;
   visionModel?: string;
 }
 
-function loadConfig(): TaskCliConfig {
+function loadConfig(): WmCliConfig {
   try {
     if (existsSync(CONFIG_PATH)) {
       const cfg = JSON.parse(readFileSync(CONFIG_PATH, "utf-8"));
@@ -60,7 +60,7 @@ function loadConfig(): TaskCliConfig {
   return { model: DEFAULT_MODEL };
 }
 
-export function saveConfig(config: TaskCliConfig): void {
+export function saveConfig(config: WmCliConfig): void {
   try {
     writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2) + "\n");
   } catch {}

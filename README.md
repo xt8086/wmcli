@@ -1,13 +1,13 @@
-# taskcli
+# wmcli
 
 CLI task runner with expert sub-agent delegation. Models from any provider.
 
 A single AI coordinator orchestrates specialist sub-agents for coding, vision, and web research — all from your terminal.
 
 ```
-taskcli > analyze this error log and find a fix
-taskcli > what does this screenshot show?
-taskcli > what's the latest on Rust 2.0?
+wmcli > analyze this error log and find a fix
+wmcli > what does this screenshot show?
+wmcli > what's the latest on Rust 2.0?
 ```
 
 ## Features
@@ -43,7 +43,7 @@ taskcli > what's the latest on Rust 2.0?
 ## Install
 
 ```bash
-npm install -g taskcli
+npm install -g wmcli
 ```
 
 The postinstall script automatically rebuilds the SQLite native module for your platform.
@@ -54,13 +54,13 @@ You can also set the key via environment variable:
 
 ```bash
 export OPENROUTER_API_KEY=sk-or-v1-...
-taskcli
+wmcli
 ```
 
 ## Quick Start
 
 ```bash
-taskcli
+wmcli
 ```
 
 ```
@@ -80,7 +80,7 @@ taskcli
   Experts: delegate_coding, delegate_vision, delegate_research
   Type /help for commands, /quit to exit.
 
-taskcli >
+wmcli >
 ```
 
 One key covers everything — main model, vision, and research all route through OpenRouter.
@@ -107,7 +107,7 @@ One key covers everything — main model, vision, and research all route through
 
 ## Supported Providers
 
-taskcli works with any provider in pi's ModelRegistry. Common providers with API key support:
+wmcli works with any provider in pi's ModelRegistry. Common providers with API key support:
 
 | Provider | Env Var | Key URL |
 |----------|---------|---------|
@@ -130,16 +130,16 @@ All provider keys can also be set at runtime with `/key set <provider>`.
 Start with OpenRouter. Add direct keys when you want lower latency or direct billing:
 
 ```
-taskcli > /model anthropic/claude-sonnet-4
+wmcli > /model anthropic/claude-sonnet-4
   ⚠️  No API key for Anthropic. Use /key set anthropic
 
-taskcli > /key set anthropic
+wmcli > /key set anthropic
   Set API key for Anthropic
   Get a key at: https://console.anthropic.com/settings/keys
   Enter Anthropic API key: sk-ant-...
   ✅ Anthropic API key saved.
 
-taskcli > /vision google/gemini-2.0-flash
+wmcli > /vision google/gemini-2.0-flash
   ✅ Vision model switched to google/gemini-2.0-flash
   ⚠️  No API key for Google AI. Use /key set google
 ```
@@ -150,16 +150,16 @@ Models from providers without a configured key show ⚠️ in `/model` and `/vis
 
 ```bash
 # Set runtime-only keys (not persisted to disk)
-taskcli --api-key openrouter=sk-or-v1-... --api-key anthropic=sk-ant-...
+wmcli --api-key openrouter=sk-or-v1-... --api-key anthropic=sk-ant-...
 
 # Backward compat: bare key defaults to openrouter
-taskcli --api-key sk-or-v1-...
+wmcli --api-key sk-or-v1-...
 ```
 
 ## Session Persistence & Memory
 
-- **Session resume**: restarting taskcli continues your last conversation — no context lost
-- **Semantic memory**: on exit, session content is embedded and stored in `~/.taskcli/memory.db`. The main model can recall past sessions via the `recall_sessions` tool using cosine similarity search
+- **Session resume**: restarting wmcli continues your last conversation — no context lost
+- **Semantic memory**: on exit, session content is embedded and stored in `~/.wmcli/memory.db`. The main model can recall past sessions via the `recall_sessions` tool using cosine similarity search
 - **Embedding cost**: ~$0.02 per 1M tokens (OpenRouter `text-embedding-3-small`, 1536 dimensions)
 
 ## Architecture
@@ -188,22 +188,22 @@ The system prompt includes the current date/time, timezone, locale, OS, shell, a
 
 | File | Purpose |
 |------|---------|
-| `~/.taskcli.json` | Model choices (`{"model": "openrouter/z-ai/glm-5.1", "visionModel": "openrouter/google/gemini-2.0-flash-001"}`) |
+| `~/.wmcli.json` | Model choices (`{"model": "openrouter/z-ai/glm-5.1", "visionModel": "openrouter/google/gemini-2.0-flash-001"}`) |
 | `~/.pi/agent/auth.json` | API keys per provider (shared with [pi](https://github.com/mariozechner/pi)) |
 | `~/.pi/agent/sessions/` | Session history (shared with pi) |
-| `~/.taskcli/memory.db` | SQLite embedding store for session recall |
+| `~/.wmcli/memory.db` | SQLite embedding store for session recall |
 
 ## Uninstall
 
 ```bash
-npm uninstall -g taskcli
+npm uninstall -g wmcli
 
 # Config is automatically removed. Memory data is kept by default:
-rm ~/.taskcli.json          # (already removed by uninstall)
-rm -rf ~/.taskcli/          # remove memory database (optional)
+rm ~/.wmcli.json          # (already removed by uninstall)
+rm -rf ~/.wmcli/          # remove memory database (optional)
 
 # To remove everything including memory during uninstall:
-TASKCLI_UNINSTALL=full npm uninstall -g taskcli
+WMCLI_UNINSTALL=full npm uninstall -g wmcli
 
 # Note: API keys in ~/.pi/agent/auth.json are shared with pi and NOT removed.
 ```
@@ -211,11 +211,11 @@ TASKCLI_UNINSTALL=full npm uninstall -g taskcli
 ## Build from Source
 
 ```bash
-git clone https://github.com/xt8086/taskcli.git
-cd taskcli
+git clone https://github.com/xt8086/wmcli.git
+cd wmcli
 npm install          # installs deps + rebuilds native modules + patches pi SDK
 npm run build        # compile TypeScript
-npm link             # makes `taskcli` available globally
+npm link             # makes `wmcli` available globally
 ```
 
 ## License
