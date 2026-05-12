@@ -1,0 +1,59 @@
+{
+  "name": "taskcli",
+  "version": "1.0.0",
+  "description": "CLI task runner with expert sub-agent delegation — models from any provider",
+  "main": "dist/index.js",
+  "bin": {
+    "taskcli": "./dist/index.js"
+  },
+  "files": [
+    "dist/",
+    "scripts/",
+    "src/",
+    "AGENTS.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js",
+    "postinstall": "node scripts/postinstall.js",
+    "preuninstall": "node scripts/preuninstall.js",
+    "prepublishOnly": "tsc"
+  },
+  "keywords": [
+    "cli",
+    "ai",
+    "agent",
+    "openrouter",
+    "anthropic",
+    "openai",
+    "google",
+    "deepseek",
+    "coding",
+    "vision",
+    "research"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "@mariozechner/pi-coding-agent": "^0.73.0",
+    "better-sqlite3": "^12.9.0",
+    "marked": "^15.0.12",
+    "marked-terminal": "^7.3.0",
+    "typebox": "^1.1.38"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/marked": "^5.0.2",
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3"
+  }
+}
