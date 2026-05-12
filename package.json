@@ -1,5 +1,5 @@
 {
-  "name": "wmcli",
+  "name": "@wondermotor/wmcli",
   "version": "1.0.0",
   "description": "CLI task runner with expert sub-agent delegation — models from any provider",
   "main": "dist/index.js",
