@@ -43,7 +43,7 @@ wmcli > what's the latest on Rust 2.0?
 ## Install
 
 ```bash
-npm install -g wmcli
+npm install -g @wondermotor/wmcli
 ```
 
 The postinstall script automatically rebuilds the SQLite native module for your platform.
@@ -196,14 +196,14 @@ The system prompt includes the current date/time, timezone, locale, OS, shell, a
 ## Uninstall
 
 ```bash
-npm uninstall -g wmcli
+npm uninstall -g @wondermotor/wmcli
 
 # Config is automatically removed. Memory data is kept by default:
 rm ~/.wmcli.json          # (already removed by uninstall)
 rm -rf ~/.wmcli/          # remove memory database (optional)
 
 # To remove everything including memory during uninstall:
-WMCLI_UNINSTALL=full npm uninstall -g wmcli
+WMCLI_UNINSTALL=full npm uninstall -g @wondermotor/wmcli
 
 # Note: API keys in ~/.pi/agent/auth.json are shared with pi and NOT removed.
 ```
