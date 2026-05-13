@@ -9,8 +9,7 @@
   "files": [
     "dist/",
     "scripts/",
-    "src/",
-    "AGENTS.md"
+    "src/"
   ],
   "scripts": {
     "build": "tsc",
