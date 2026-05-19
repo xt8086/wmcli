@@ -4,7 +4,14 @@ dist/
 .pi/
 .taskcli.json
 .taskcli/
+.wmcli.json
+.wmcli/
 auth.json
+.env
+.env.*
+*.key
+*.pem
+AGENTS.md
 *.html
 is_prime.py
 levenshtein.rs
